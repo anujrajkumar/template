@@ -1,0 +1,46 @@
+parameters:
+    br: ''
+    env: 'dev'
+    runID: ''
+
+steps:
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+
+      # Define RG names based on ENV
+      declare -A RG_MAP=(
+        ["dev"]="dev-rg"
+        ["test"]="test-rg"
+        ["staging"]="staging-rg"
+        ["prod"]="prod-rg"
+      )
+
+      # Set the RG variable based on ENV
+      RG_NAME=${RG_MAP[$ENV_NAME]:-"default-rg"}
+
+      # Print result
+      echo "Selected Resource Group: $RG_NAME"
+
+      # Export RG_NAME so it can be used in subsequent commands
+      export RG_NAME
+      echo "$RG_NAME"
+      br_n="new-${BRANCH_NAME}test"
+      echo "$br_n"
+      echo "$ENV_NAME"
+      env=$ENV_NAME
+      echo "checking $env"
+      echo "$RUN_ID"
+      echo
+      echo
+      printenv | sort
+      echo "printenv"
+      # echo "Branch name only: $(resources.pipeline.DotNetDemo_Release.sourceBranchName)"
+      # echo "Triggered from branch: $(resources.pipeline.DotNetDemo_Release.sourceBranch)"
+      # echo "Branch name only: $(resources.pipeline.DotNetDemo_Release.sourceVersion)"
+      # echo "Branch name only: $(resources.pipeline.DotNetDemo_Release.runName)"
+  env:
+    BRANCH_NAME: ${{ parameters.br }}
+    ENV_NAME: ${{ parameters.env }}
+    RUN_ID: ${{ parameters.runID }}
