@@ -1,0 +1,33 @@
+name: 'Upload Static Website to Azure Storage'
+description: 'Uploads static website files to Azure Blob Storage'
+inputs:
+  sourcePath:
+    description: 'Path to static website files'
+    required: false
+    default: 'dist/apps/prypco'
+  run_condition:
+    description: 'Condition to run this action'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Set deployment start time
+      if: ${{ inputs.run_condition == 'true' }}
+      shell: bash
+      run: |
+        echo "Setting deployment start time..."
+        echo "deploy_start_time=$(date -u +%s)" >> $GITHUB_ENV
+
+    - name: Upload static files to Azure Blob Storage
+      if: ${{ inputs.run_condition == 'true' }}
+      shell: bash
+      run: |
+        echo "Uploading to: ${{ inputs.storageAccountName }}"
+        # az account set --subscription ${{ inputs.azureSubscription }}
+        # az storage blob upload-batch \
+        #   --account-name ${{ inputs.storageAccountName }} \
+        #   --destination '$web' \
+        #   --source ${{ inputs.sourcePath }} \
+        #   --overwrite
