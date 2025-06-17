@@ -1,0 +1,39 @@
+name: Build react App
+
+on:
+  workflow_call:
+    inputs:
+      buildCommand:
+        type: string
+        default: "npm run build"
+      app_name:
+        type: string
+        default: ""
+      node_version:
+        type: string
+        default: "20.x"
+
+jobs:
+  build-ng-app:
+    name: Build ${{ inputs.app_name }} App
+    runs-on: self-hosted-aks
+
+    env:
+      BUILD_NUMBER: ${{ github.run_number }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+
+      - name: Install Angular CLI and dependencies
+        run: |
+          npm install -g @angular/cli
+          npm install
+      - name: Build ${{ inputs.app_name }} App
+        run: |
+          ${{ inputs.buildCommand }}
