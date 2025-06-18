@@ -16,7 +16,7 @@ on:
 jobs:
   build-ng-app:
     name: Build ${{ inputs.app_name }} App
-    runs-on: self-hosted-aks
+    runs-on: ubuntu-latest
 
     env:
       BUILD_NUMBER: ${{ github.run_number }}
