@@ -1,0 +1,35 @@
+name: 'My Custom Action'
+description: 'A simple custom action for demonstration'
+
+inputs:
+  input-parameter:
+    description: 'A sample input parameter'
+    required: true
+  another-parameter:
+    description: 'Another input parameter'
+    required: false
+    default: 'default-value'
+
+outputs:
+  result:
+    description: 'The result of the action'
+  timestamp:
+    description: 'When the action was executed'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Execute custom logic
+      shell: bash
+      run: |
+        echo "Processing input: ${{ inputs.input-parameter }}"
+        echo "Another parameter: ${{ inputs.another-parameter }}"
+        
+        # Set outputs
+        echo "result=Action completed successfully" >> $GITHUB_OUTPUT
+        echo "timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_OUTPUT
+        
+        # Create some files for demonstration
+        mkdir -p custom-action-output
+        echo "Custom action was here!" > custom-action-output/result.txt
+        echo "Input was: ${{ inputs.input-parameter }}" >> custom-action-output/result.txt
