@@ -3,7 +3,7 @@
   "extends": [
     "config:recommended"
   ],
-  "prHourlyLimit": 0,
+  "prHourlyLimit": 0, 
   "prConcurrentLimit": 10,
   "enabledManagers": [
     "custom.regex"
@@ -27,18 +27,20 @@
     }
   ],
   "customManagers": [
+
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "^\\.github/workflows/.*\\.ya?ml$",
-        "^\\.github/actions/[^/]+/.*\\.ya?ml$"
+        "/^\\.github/workflows/.*\\.ya?ml$/",
+        "/^\\.github/actions/[^/]+/.*\\.ya?ml$/"
       ],
       "matchStrings": [
-        "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v\\d+\\.\\d+\\.\\d+)"
+        "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v?\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
       ],
       "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
       "depNameTemplate": "anujrajkumar/template",
-      "versioningTemplate": "semver"
+      "versioningTemplate": "semver-coerced"
     }
   ]
 }
