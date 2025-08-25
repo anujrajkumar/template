@@ -1,26 +1,35 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
-  "enabledManagers": ["regex"],
-
+  "extends": [
+    "config:recommended"
+  ],
+  "enabledManagers": [
+    "custom.regex"
+  ],
   "packageRules": [
     {
       "description": "Auto-PR for template bumps",
-      "matchManagers": ["regex"],
-      "matchPackageNames": ["anujrajkumar/template"],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchPackageNames": [
+        "anujrajkumar/template"
+      ],
       "prCreation": "immediate",
       "automerge": false,
       "commitMessageTopic": "Update template version",
       "groupName": "Template updates",
-      "schedule": ["at any time"]
+      "schedule": [
+        "at any time"
+      ]
     }
   ],
-
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": [
-        "^\\.github/workflows/.*\\.ya?ml$",
-        "^\\.github/actions/[^/]+/.*\\.ya?ml$"
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/.*\\.ya?ml$/",
+        "/^\\.github/actions/[^/]+/.*\\.ya?ml$/"
       ],
       "matchStrings": [
         "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v?\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
