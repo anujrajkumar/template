@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - main
+    branches-ignore:
+      - "renovate/**"
 
 permissions:
   contents: write
