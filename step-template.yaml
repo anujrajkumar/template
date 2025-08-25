@@ -23,7 +23,7 @@ steps:
       # Print result
       echo "Selected Resource Group: $RG_NAME"
 
-      # Export RG_NAME so it can be used in subsequent commands
+      # Export RG_NAME so it can be used in subsequent commands just checking
       export RG_NAME
       echo "$RG_NAME"
       br_n="new-${BRANCH_NAME}test"
@@ -43,4 +43,5 @@ steps:
   env:
     BRANCH_NAME: ${{ parameters.br }}
     ENV_NAME: ${{ parameters.env }}
+
     RUN_ID: ${{ parameters.runID }}
