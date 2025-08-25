@@ -2,7 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
   "github-actions": { "enabled": true },
-
   "packageRules": [
     {
       "description": "Auto-PR for template bumps",
@@ -11,20 +10,20 @@
       "prCreation": "immediate",
       "automerge": false,
       "commitMessageTopic": "Update template version",
-      "groupName": "Template updates"
+      "groupName": "Template updates",
+      "schedule": ["at any time"]
     }
   ],
-
   "regexManagers": [
     {
       "fileMatch": [
-        "^\\.github/workflows/.*\\.ya?ml$",
-        ".*\\.ya?ml$"
+        "^\\.github/workflows/.*\\.ya?ml$"
       ],
       "matchStrings": [
         "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v?\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
       ],
       "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^v?(?<version>.*)$",
       "depNameTemplate": "anujrajkumar/template",
       "versioningTemplate": "semver-coerced"
     }
