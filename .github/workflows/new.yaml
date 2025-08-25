@@ -15,7 +15,7 @@ on:
 
 jobs:
   build-ng-app:
-    name: Build ${{ inputs.app_name }} App
+    name: Build ${{ inputs.app_name }} App Test
     runs-on: ubuntu-latest
 
     env:
