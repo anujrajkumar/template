@@ -35,10 +35,9 @@
         "/^\\.github/actions/[^/]+/.*\\.ya?ml$/"
       ],
       "matchStrings": [
-        "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v?\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
+        "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
       ],
       "datasourceTemplate": "github-tags",
-      "extractVersionTemplate": "^v?(?<version>.*)$",
       "depNameTemplate": "anujrajkumar/template",
       "versioningTemplate": "semver-coerced"
     }
