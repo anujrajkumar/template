@@ -1,5 +1,5 @@
 name: 'Upload Static Website to Azure Storage'
-description: 'Uploads static website files to Azure Blob Storage also checking who let the dog out'
+description: 'Uploads static website files to Azure Blob Storage also checking who let the dogs out'
 inputs:
   sourcePath:
     description: 'Path to static website files'
