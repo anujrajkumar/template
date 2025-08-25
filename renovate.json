@@ -30,15 +30,15 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/^\\.github/workflows/.*\\.ya?ml$/",
-        "/^\\.github/actions/[^/]+/.*\\.ya?ml$/"
+        "^\\.github/workflows/.*\\.ya?ml$",
+        "^\\.github/actions/[^/]+/.*\\.ya?ml$"
       ],
       "matchStrings": [
-        "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v?\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
+        "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v\\d+\\.\\d+\\.\\d+)"
       ],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "anujrajkumar/template",
-      "versioningTemplate": "semver-coerced"
+      "versioningTemplate": "semver"
     }
   ]
 }
