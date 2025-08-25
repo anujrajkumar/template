@@ -17,7 +17,8 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "^\\.github/workflows/.*\\.ya?ml$"
+        "^\\.github/workflows/.*\\.ya?ml$",
+        "^\\.github/actions/[^/]+/.*\\.ya?ml$"
       ],
       "matchStrings": [
         "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v?\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
