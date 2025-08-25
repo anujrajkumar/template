@@ -31,4 +31,4 @@ jobs:
           node-version: ${{ inputs.node_version }}
 
       - name: Install Angular CLI and dependencies
-        uses: anujrajkumar/template/.github/actions/custom@v0.0.14
+        uses: anujrajkumar/template/.github/actions/custom@0.0.18
