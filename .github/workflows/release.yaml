@@ -2,14 +2,15 @@ on:
   push:
     branches:
       - main
-    branches-ignore:
-      - "renovate/**"
 
 permissions:
   contents: write
 
 jobs:
   release-on-push:
+    if: |
+      !contains(github.event.head_commit.message, 'renovate') &&
+      !contains(github.actor, 'renovate[bot]')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
