@@ -5,12 +5,13 @@
 
   "packageRules": [
     {
-      "description": "Bump tags for anujrajkumar/template everywhere",
-      "matchManagers": ["github-actions", "regex"],
+      "description": "Auto-PR for template bumps",
+      "matchManagers": ["regex"],
       "matchPackageNames": ["anujrajkumar/template"],
-      "groupName": "Template updates",
-      "commitMessageTopic": "anujrajkumar/template",
-      "automerge": false
+      "prCreation": "immediate",
+      "automerge": false,
+      "commitMessageTopic": "Update template version",
+      "groupName": "Template updates"
     }
   ],
 
