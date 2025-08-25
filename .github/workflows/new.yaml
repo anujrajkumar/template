@@ -31,10 +31,4 @@ jobs:
           node-version: ${{ inputs.node_version }}
 
       - name: Install Angular CLI and dependencies
-        run: |
-          echo "Hello Guys"
-          npm install -g @angular/cli
-          npm install
-      - name: Build ${{ inputs.app_name }} App
-        run: |
-          ${{ inputs.buildCommand }}
+        uses: anujrajkumar/template/.github/actions/custom@main
