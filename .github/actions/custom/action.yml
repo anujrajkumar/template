@@ -25,6 +25,7 @@ runs:
       shell: bash
       run: |
         echo "Uploading to: ${{ inputs.storageAccountName }}"
+        echo "something new"
         # az account set --subscription ${{ inputs.azureSubscription }}
         # az storage blob upload-batch \
         #   --account-name ${{ inputs.storageAccountName }} \
