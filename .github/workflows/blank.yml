@@ -15,7 +15,7 @@ on:
 
 jobs:
   build-ng-app:
-    name: Build ${{ inputs.app_name }} App
+    name: Build ${{ inputs.app_name }} App checking
     runs-on: ubuntu-latest
 
     env:
@@ -37,3 +37,5 @@ jobs:
       - name: Build ${{ inputs.app_name }} App
         run: |
           ${{ inputs.buildCommand }}
+      - name: custom action
+        uses: anujrajkumar/template/.github/actions/custom@v0.0.1
