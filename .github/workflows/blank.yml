@@ -1,4 +1,4 @@
-name: Build react App
+name: Build react App Now
 
 on:
   workflow_call:
