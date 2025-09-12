@@ -1,4 +1,4 @@
-name: 'Upload Static Website to Azure Storage'
+name: 'Upload Static Website to Azure Storage checking'
 description: 'Uploads static website files to Azure Blob Storage hoho'
 inputs:
   sourcePath:
