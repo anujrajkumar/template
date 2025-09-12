@@ -1,38 +1,50 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ],
-  "prHourlyLimit": 0, 
+  "extends": ["config:recommended"],
+
+  "prHourlyLimit": 0,
   "prConcurrentLimit": 10,
-  "enabledManagers": [
-    "custom.regex",
-    "github-actions"
-  ],
+
+  "enabledManagers": ["custom.regex", "github-actions"],
+
   "packageRules": [
     {
-      "description": "Group all GitHub Actions (public + Prypco template) into a single PR",
-      "matchManagers": ["github-actions", "custom.regex"],
-      "groupName": "GitHub Actions updates",
+      "description": "Group all public GitHub Actions into a single PR",
+      "matchManagers": ["github-actions"],
+      "excludePackageNames": ["Prypco/GithubActionsTemplates"],
+      "groupName": "Public GitHub Actions updates",
+      "groupSlug": "public-gha-updates",
+      "commitMessageTopic": "Update public GitHub Actions",
       "prCreation": "immediate",
       "automerge": false,
-      "commitMessageTopic": "Update GitHub Actions and Template",
+      "schedule": ["at any time"]
+    },
+    {
+      "description": "Group template bumps (custom reusable workflows) into a single PR",
+      "matchManagers": ["custom.regex"],
+      "matchPackageNames": [
+        "anujrajkumar/template"
+      ],
+      "groupName": "Template updates",
+      "groupSlug": "template-updates",
+      "commitMessageTopic": "Update template version",
+      "prCreation": "immediate",
+      "automerge": false,
       "schedule": ["at any time"]
     }
   ],
-  "customManagers": [
 
+  "customManagers": [
     {
       "customType": "regex",
       "managerFilePatterns": [
-        "/^\\.github/workflows/.*\\.ya?ml$/",
         "/^\\.github/actions/[^/]+/.*\\.ya?ml$/"
       ],
       "matchStrings": [
-        "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
+        "uses:\\s*(?:Prypco/GithubActionsTemplates|anujrajkumar/template)(?:/[\\w./-]+)?@(?<currentValue>v\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
       ],
-      "datasourceTemplate": "github-tags",
-      "depNameTemplate": "anujrajkumar/template",
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "{{{depName}}}",
       "versioningTemplate": "semver-coerced"
     }
   ]
