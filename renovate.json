@@ -11,20 +11,13 @@
   ],
   "packageRules": [
     {
-      "description": "Auto-PR for template bumps",
-      "matchManagers": [
-        "custom.regex"
-      ],
-      "matchPackageNames": [
-        "anujrajkumar/template"
-      ],
+      "description": "Group all GitHub Actions (public + Prypco template) into a single PR",
+      "matchManagers": ["github-actions", "custom.regex"],
+      "groupName": "GitHub Actions updates",
       "prCreation": "immediate",
       "automerge": false,
-      "commitMessageTopic": "Update template version",
-      "groupName": "Template updates",
-      "schedule": [
-        "at any time"
-      ]
+      "commitMessageTopic": "Update GitHub Actions and Template",
+      "schedule": ["at any time"]
     }
   ],
   "customManagers": [
@@ -38,7 +31,7 @@
       "matchStrings": [
         "uses:\\s*anujrajkumar/template(?:/[\\w./-]+)?@(?<currentValue>v\\d+(?:\\.\\d+){0,2}(?:[-+][0-9A-Za-z.-]+)?)"
       ],
-      "datasourceTemplate": "github-releases",
+      "datasourceTemplate": "github-tags",
       "depNameTemplate": "anujrajkumar/template",
       "versioningTemplate": "semver-coerced"
     }
