@@ -13,11 +13,12 @@
       "matchManagers": ["github-actions"],
       "excludePackageNames": ["Prypco/GithubActionsTemplates", "anujrajkumar/template"],
       "groupName": "Public GitHub Actions updates",
-      "groupSlug": "public-gha-updates",
-      "commitMessageTopic": "Update public GitHub Actions",
+      "prTitle": "Update all public GitHub Actions",
       "prCreation": "immediate",
       "automerge": false,
-      "schedule": ["at any time"]
+      "schedule": ["at any time"],
+      "separateMajorMinor": false,
+      "separateMinorPatch": false
     },
     {
       "description": "Group template bumps (custom reusable workflows) into a single PR",
@@ -29,6 +30,7 @@
       "groupName": "Template updates",
       "groupSlug": "template-updates",
       "commitMessageTopic": "Update template version",
+      "prTitle": "Update all custom GitHub Actions and workflow version",
       "prCreation": "immediate",
       "automerge": false,
       "schedule": ["at any time"]
