@@ -38,4 +38,4 @@ jobs:
         run: |
           ${{ inputs.buildCommand }}
       - name: custom action
-        uses: anujrajkumar/template/.github/actions/custom@v0.0.22
+        uses: anujrajkumar/template/.github/actions/custom@v0.0.26
