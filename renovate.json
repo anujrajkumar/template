@@ -1,17 +1,20 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-
+  "extends": [
+    "config:recommended"
+  ],
   "prHourlyLimit": 0,
   "prConcurrentLimit": 10,
-
-  "enabledManagers": ["custom.regex", "github-actions"],
-
+  "enabledManagers": [
+    "custom.regex",
+    "github-actions"
+  ],
   "packageRules": [
     {
       "description": "Group all public GitHub Actions into a single PR",
-      "matchManagers": ["github-actions"],
-      "excludePackageNames": ["Prypco/GithubActionsTemplates", "anujrajkumar/template"],
+      "matchManagers": [
+        "github-actions"
+      ],
       "groupName": "Public GitHub Actions updates",
       "commitMessagePrefix": "chore",
       "commitMessageAction": "deps",
@@ -19,13 +22,21 @@
       "commitMessageSuffix": "[skip ci]",
       "prCreation": "immediate",
       "automerge": false,
-      "schedule": ["at any time"],
+      "schedule": [
+        "at any time"
+      ],
       "separateMajorMinor": false,
-      "separateMinorPatch": false
+      "separateMinorPatch": false,
+      "matchPackageNames": [
+        "!Prypco/GithubActionsTemplates",
+        "!anujrajkumar/template"
+      ]
     },
     {
       "description": "Group template bumps (custom reusable workflows) into a single PR",
-      "matchManagers": ["custom.regex"],
+      "matchManagers": [
+        "custom.regex"
+      ],
       "matchPackageNames": [
         "Prypco/GithubActionsTemplates",
         "anujrajkumar/template"
@@ -38,10 +49,11 @@
       "commitMessageSuffix": "[skip ci]",
       "prCreation": "immediate",
       "automerge": false,
-      "schedule": ["at any time"]
+      "schedule": [
+        "at any time"
+      ]
     }
   ],
-
   "customManagers": [
     {
       "customType": "regex",
