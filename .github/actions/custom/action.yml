@@ -1,4 +1,4 @@
-name: 'Upload Static Website to Azure Storage aba jaba'
+name: 'Upload Static Website to Azure Storage'
 description: 'Uploads static website files'
 inputs:
   sourcePath:
