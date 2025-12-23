@@ -4,17 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: "Select environment"
         type: choice
-        options:
-          - dev
-          - staging
-          - prod
+        description: "Select environment"
+        options: [dev, staging, prod]
         required: true
 
       database_name:
-        description: "Select the target database"
         type: choice
+        description: "Select the database"
         required: true
         options:
           - DeadLetter
@@ -69,13 +66,13 @@ on:
           - kratosprod
 
       query_description:
-        description: "Brief description of the query"
         type: string
+        description: "What does your query do?"
         required: true
 
       query:
-        description: "SQL query (multi-line allowed)"
         type: string
+        description: "SQL query (supports multiline)"
         required: true
 
 permissions:
@@ -87,7 +84,8 @@ jobs:
     runs-on: self-hosted-aks
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Detect server + validate DB
         id: detect
@@ -105,12 +103,12 @@ jobs:
             SERVER="postgres"
             FILE_PATH="$POSTGRES_PATH/query_log.sql"
           else
-            echo "ERROR: DB '$DB' not found in env '$ENV'"
+            echo "❌ Database '$DB' does not exist under '$ENV'"
             exit 1
           fi
 
           if [[ ! -f "$FILE_PATH" ]]; then
-            echo "ERROR: Missing query_log.sql → $FILE_PATH"
+            echo "❌ query_log.sql missing at $FILE_PATH"
             exit 1
           fi
 
@@ -131,16 +129,16 @@ jobs:
           DESC="${{ inputs.query_description }}"
           QID=$(date +"%Y-%m-%d_%H%M")
 
-cat <<EOF >> "$FILE"
+          # Write query block
+          cat <<'EOF' >> "$FILE"
 
--- QUERY_ID: ${QID}
--- EXECUTOR: ${EXECUTOR}
--- DESCRIPTION: ${DESC}
+-- QUERY_ID: '"${QID}"'
+-- EXECUTOR: '"${EXECUTOR}"'
+-- DESCRIPTION: '"${DESC}"'
 
 ${{ inputs.query }};
 
 -- END_QUERY
-
 EOF
 
           git add "$FILE"
@@ -160,7 +158,6 @@ EOF
           title: "Query PR for ${{ inputs.database_name }}"
           body: |
             Automated query PR.
-
             **DB:** ${{ inputs.database_name }}
             **Env:** ${{ inputs.environment }}
             **Description:** ${{ inputs.query_description }}
