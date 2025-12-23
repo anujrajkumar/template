@@ -149,7 +149,7 @@ ${{ inputs.query }};
 
 -- END_QUERY
 
-          EOF
+EOF
 
           git add "$FILE"
 
