@@ -11,8 +11,9 @@ on:
           - staging
           - prod
         required: true
+
       database_name:
-        description: "Select the target database. Please choose carefully"
+        description: "Select the target database"
         type: choice
         required: true
         options:
@@ -73,7 +74,7 @@ on:
         required: true
 
       query:
-        description: "Your SQL query (without comment lines)"
+        description: "SQL query (multi-line allowed)"
         type: string
         required: true
 
@@ -86,8 +87,7 @@ jobs:
     runs-on: self-hosted-aks
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Detect server + validate DB
         id: detect
@@ -95,29 +95,22 @@ jobs:
           ENV="${{ inputs.environment }}"
           DB="${{ inputs.database_name }}"
 
-          echo "Checking DB '$DB' in environment '$ENV'..."
-
           SQLSERVER_PATH="sqlserver/$ENV/$DB"
           POSTGRES_PATH="postgres/$ENV/$DB"
 
           if [[ -d "$SQLSERVER_PATH" ]]; then
             SERVER="sqlserver"
             FILE_PATH="$SQLSERVER_PATH/query_log.sql"
-            echo "Matched SQL Server → $FILE_PATH"
           elif [[ -d "$POSTGRES_PATH" ]]; then
             SERVER="postgres"
             FILE_PATH="$POSTGRES_PATH/query_log.sql"
-            echo "Matched PostgreSQL → $FILE_PATH"
           else
-            echo "ERROR: Database '$DB' does NOT exist under environment '$ENV'"
-            echo "Checked:"
-            echo "  - $SQLSERVER_PATH/"
-            echo "  - $POSTGRES_PATH/"
+            echo "ERROR: DB '$DB' not found in env '$ENV'"
             exit 1
           fi
 
           if [[ ! -f "$FILE_PATH" ]]; then
-            echo "ERROR: query_log.sql missing at: $FILE_PATH"
+            echo "ERROR: Missing query_log.sql → $FILE_PATH"
             exit 1
           fi
 
@@ -125,13 +118,11 @@ jobs:
           echo "server=$SERVER" >> $GITHUB_OUTPUT
           echo "file=$FILE_PATH" >> $GITHUB_OUTPUT
 
-
       - name: Create branch
         run: |
           BRANCH="auto-query-${{ inputs.database_name }}-$(date +%s)"
           git checkout -b "$BRANCH"
           echo "branch=$BRANCH" >> $GITHUB_ENV
-
 
       - name: Append query block
         run: |
@@ -140,12 +131,13 @@ jobs:
           DESC="${{ inputs.query_description }}"
           QID=$(date +"%Y-%m-%d_%H%M")
 
-cat <<'EOF' >> "$FILE"
+cat <<EOF >> "$FILE"
+
 -- QUERY_ID: ${QID}
 -- EXECUTOR: ${EXECUTOR}
 -- DESCRIPTION: ${DESC}
 
-${{ inputs.query_description }};
+${{ inputs.query }};
 
 -- END_QUERY
 
@@ -158,10 +150,7 @@ EOF
         with:
           branch: ${{ env.branch }}
           commit_message: "Auto-add query for ${{ inputs.database_name }}"
-          commit_user_name: github-actions
-          commit_user_email: github-actions@github.com
 
-      # STEP 5: Create PR safely via GitHub API
       - name: Open Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
@@ -174,4 +163,4 @@ EOF
 
             **DB:** ${{ inputs.database_name }}
             **Env:** ${{ inputs.environment }}
-            **Description:** ${{ inputs.description }}
+            **Description:** ${{ inputs.query_description }}
