@@ -137,15 +137,15 @@ jobs:
         run: |
           FILE="${{ steps.detect.outputs.file }}"
           EXECUTOR="${GITHUB_ACTOR}"
-          DESC="${{ inputs.description }}"
+          DESC="${{ inputs.query_description }}"
           QID=$(date +"%Y-%m-%d_%H%M")
 
-          cat <<EOF >> "$FILE"
+cat <<'EOF' >> "$FILE"
 -- QUERY_ID: ${QID}
 -- EXECUTOR: ${EXECUTOR}
 -- DESCRIPTION: ${DESC}
 
-${{ inputs.query }};
+${{ inputs.query_description }};
 
 -- END_QUERY
 
